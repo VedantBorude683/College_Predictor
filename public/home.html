@@ -1,51 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>College Predictor - Home</title>
-  <link rel="stylesheet" href="/style.css">
-  <script src="/script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MHT-CET Engineering Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">College Predictor</div>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/predict.html">Predict</a></li>
-      <li><a href="/about.html">About</a></li>
-    </ul>
-  </nav>
+    <header class="navbar">
+        <div class="logo">EduPredict</div>
+        <nav>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#explore-colleges">Explore Colleges</a></li>
+                <li><a href="#contact-us">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div class="nav-buttons">
+            <button class="toggle-mode-btn" id="darkModeToggle">🌙</button>
+            <a href="#" class="login">Login/Sign Up</a>
+        </div>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Find the Best College for Your MHT-CET Rank 🎓</h1>
-      <p>Access real cutoff data from past years and make smarter decisions.</p>
-      <a href="/predict.html" class="btn">Start Prediction</a>
-    </div>
-  </section>
+    <section class="hero-section" id="hero">
+        <video autoplay muted loop id="heroVideo">
+          <source src="videos/College_Predictor_Background_Video_Generation.mp4" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+        <div class="hero-content">
+            <h1>Find Your Perfect Engineering College with MHT-CET</h1>
+            <p>Ready to find the best engineering colleges in Maharashtra? Click the button below to get started!</p>
+            <div class="search-box">
+                <button class="predict-btn">Get Started</button>
+            </div>
+        </div>
+    </section>
 
-  <!-- Features Section -->
-  <section class="features">
-    <div class="feature">
-      <h2>📊 Cutoff Data</h2>
-      <p>Browse through years of official cutoff data to plan wisely.</p>
-    </div>
-    <div class="feature">
-      <h2>⚡ Easy to Use</h2>
-      <p>Quick filters by year, category, and rank to save your time.</p>
-    </div>
-    <div class="feature">
-      <h2>🎯 Accurate Insights</h2>
-      <p>Get reliable predictions based on actual MHT-CET cutoffs.</p>
-    </div>
-  </section>
+    <section id="why-us-section">
+        <h2>Why Choose Us?</h2>
+        <p>We provide accurate predictions and valuable insights to help you make the best decision for your future.</p>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="number" data-target="500">0</div>
+                <div class="label">Colleges Analyzed</div>
+            </div>
+            <div class="stat-item">
+                <div class="number" data-target="10000">0</div>
+                <div class="label">Students Helped</div>
+            </div>
+            <div class="stat-item">
+                <div class="number" data-target="100">0</div>
+                <div class="label">Percentile Accuracy</div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 College Predictor | Built with ❤️ for Students</p>
-  </footer>
+    <section class="categories-section" id="explore-colleges">
+        <h2>Top Engineering Colleges in Pune</h2>
+        <p>Click on a college card to learn more about it.</p>
+        <div class="categories-grid">
+            <div class="category-card" data-college="coep">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/COEP_Main_building.JPG" alt="COEP Pune">
+                <h3>COEP Pune</h3>
+            </div>
+            <div class="category-card" data-college="pict">
+                <img src="https://pict.edu/wp-content/uploads/2019/07/pict_campus_2.jpg" alt="PICT Pune">
+                <h3>PICT Pune</h3>
+            </div>
+            <div class="category-card" data-college="vit">
+                <img src="https://vit.edu/wp-content/uploads/2021/04/campus_3.jpg" alt="VIT Pune">
+                <h3>VIT Pune</h3>
+            </div>
+            <div class="category-card" data-college="aissms">
+                <img src="https://www.aissmscoe.com/wp-content/uploads/2019/04/AISSMS-COE-1.jpg" alt="AISSMS Pune">
+                <h3>AISSMS COE</h3>
+            </div>
+            <div class="category-card" data-college="dypatil">
+                <img src="https://dypatiluniversitypune.edu.in/wp-content/uploads/2022/10/campus-1.jpg" alt="DY Patil Pune">
+                <h3>DY Patil COE</h3>
+            </div>
+        </div>
+    </section>
+    
+    <footer id="contact-us">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Contact Us</h2>
+                <p>Have questions about MHT-CET admissions? Feel free to reach out to us!</p>
+                <ul class="contact-info-list">
+                    <li><a href="mailto:support@edupredict.com">Email: support@edupredict.com</a></li>
+                    <li><a href="tel:+919876543210">Phone: +91-9876543210</a></li>
+                    <li>
+                        <a href="#">Privacy Policy</a>
+                    </li>
+                </ul>
+            </div>
+            <form class="contact-form" id="contactForm">
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
+                <input type="email" id="email" name="email" placeholder="Your Email" required>
+                <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+        <p style="margin-top: 2rem;">&copy; 2025 EduPredict. All rights reserved.</p>
+    </footer>
+
+    <div class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <img class="modal-image" src="" alt="College Image">
+            <div class="modal-info">
+                <h3 id="modal-college-name"></h3>
+                <p id="modal-college-description"></p>
+                <ul class="info-details"></ul>
+                <a id="modal-college-link" href="#" target="_blank" class="modal-link">Visit Official Website</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
