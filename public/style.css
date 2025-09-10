@@ -187,11 +187,16 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: background 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: var(--overlay-text-color);
+    font-weight: 600;
 }
 
 .predict-btn:hover {
     background: #4a6ceb;
     box-shadow: 0 8px 15px rgba(91, 126, 252, 0.4);
+     text-decoration: none;
+   
 }
 
 /* Why Us Section */

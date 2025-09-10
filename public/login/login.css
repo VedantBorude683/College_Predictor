@@ -1,0 +1,118 @@
+:root {
+    --primary-color: #5b7efc;
+    --secondary-color: #4CAF50;
+    --text-color: #333;
+    --light-text-color: #555;
+    --bg-color: #f8f9fa;
+    --card-bg-color: #ffffff;
+    --overlay-text-color: #ffffff;
+    --overlay-gradient-start: #5b7efc;
+    --overlay-gradient-end: #4CAF50;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode variables */
+body.dark-mode {
+    --text-color: #e0e0e0;
+    --light-text-color: #bbbbbb;
+    --bg-color: #1a1a2e;
+    --card-bg-color: #2c2c44;
+    --overlay-text-color: #ffffff;
+    --overlay-gradient-start: #1e1e3f;
+    --overlay-gradient-end: #2c2c44;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* General Styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; background-color: var(--bg-color);
+    background-image: linear-gradient(135deg, var(--overlay-gradient-end), var(--overlay-gradient-start));
+    overflow: hidden; position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+body::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(255, 255, 255, 0.05); animation: moveGradient 20s infinite alternate;
+    z-index: -1;
+}
+@keyframes moveGradient { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
+
+/* Back Button */
+.back-button { position: fixed; top: 20px; left: 20px; background-color: #fff; color: #333;
+    border: 1px solid #333; padding: 10px 20px; border-radius: 5px; text-decoration: none;
+    font-weight: 500; transition: all 0.3s ease; z-index: 1000; }
+.back-button:hover { background-color: #f0f0f0; }
+body.dark-mode .back-button { background-color: #333; color: #fff; border: 1px solid #fff; }
+body.dark-mode .back-button:hover { background-color: #444; }
+
+/* Container */
+.container { position: relative; width: 800px; max-width: 90%; height: 550px;
+    background-color: var(--card-bg-color); border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3),0 15px 15px rgba(0,0,0,0.25);
+    overflow: hidden; perspective: 1000px; transition: background-color 0.3s ease, box-shadow 0.3s ease; }
+.container.right-panel-active .form-flipper { transform: rotateY(180deg); }
+
+.form-flipper { width: 100%; height: 100%; position: relative;
+    transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.4,0.2,0.2,1); }
+.form-container { position: absolute; top: 0; width: 50%; height: 100%;
+    backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center;
+    align-items: center; padding: 0 50px; }
+.sign-up-container { left: 0; transform: rotateY(-180deg); }
+.sign-in-container { left: 0; }
+
+form { background-color: var(--card-bg-color); display: flex; flex-direction: column;
+    padding: 0 50px; height: 100%; justify-content: center; align-items: center;
+    text-align: center; width: 100%; transition: background-color 0.3s ease; }
+h1 { font-weight: 700; margin-bottom: 20px; color: var(--text-color); transition: color 0.3s ease; }
+input { background-color: var(--bg-color); border: none; padding: 12px 15px; margin: 8px 0;
+    width: 100%; border-radius: 10px; transition: all 0.3s ease; color: var(--text-color); }
+input:focus { outline: none; box-shadow: 0 0 0 2px var(--primary-color); transform: scale(1.02); }
+button { border-radius: 25px; border: 1px solid var(--primary-color);
+    background-color: var(--primary-color); color: var(--overlay-text-color);
+    font-size: 12px; font-weight: bold; padding: 12px 45px; cursor: pointer; margin-top: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: all 0.3s ease; }
+button:hover { background-color: #4a6ceb; transform: scale(1.05); }
+
+a { text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+form a { color: #007BFF; } form a:hover { color: #0056b3; }
+body.dark-mode form a { color: #66b2ff; } body.dark-mode form a:hover { color: #3399ff; }
+
+/* Overlay */
+.overlay-container { position: absolute; top: 0; left: 50%; width: 50%; height: 100%; overflow: hidden; z-index:100; }
+.container.right-panel-active .overlay-container { transform: translateX(-100%); }
+.overlay { background: linear-gradient(to right, var(--overlay-gradient-end), var(--overlay-gradient-start));
+    position: relative; left: -100%; height: 100%; width: 200%; transform: translateX(0);
+    transition: transform 0.8s cubic-bezier(0.4,0.2,0.2,1); border-radius: 20px; color: var(--overlay-text-color); }
+.container.right-panel-active .overlay { transform: translateX(50%); }
+.overlay-panel { position: absolute; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; top: 0; height: 100%; width: 50%; text-align: center;
+    transform: translateX(0); transition: transform 0.8s cubic-bezier(0.4,0.2,0.2,1); }
+.overlay-left { transform: translateX(-20%); } .container.right-panel-active .overlay-left { transform: translateX(0); }
+.overlay-right { right:0; transform: translateX(0); } .container.right-panel-active .overlay-right { transform: translateX(20%); }
+
+/* Message box */
+.message-box { position: fixed; top:20px; left:50%; transform: translateX(-50%);
+    padding:10px 20px; background-color:rgba(0,0,0,0.8); color:white; border-radius:5px;
+    z-index:1000; display:none; opacity:0; transition: opacity 0.5s ease-in-out; }
+
+/* Modal Styles */
+.modal { display:none; position: fixed; z-index: 2000; left:0; top:0; width:100%; height:100%;
+    overflow:auto; background-color: rgba(0,0,0,0.6); }
+.modal-content { background-color: var(--card-bg-color); margin: 10% auto; padding: 20px;
+    border-radius: 15px; width: 350px; max-width: 90%; box-shadow: var(--box-shadow);
+    display:flex; flex-direction: column; align-items:center; transition: background-color 0.3s ease; }
+.modal-content input { width: 100%; margin: 8px 0; }
+.modal-content button { width: 100%; margin-top: 12px; }
+
+/* Close button */
+.close-button { align-self: flex-end; font-size: 1.5rem; font-weight: bold; cursor:pointer; }
+
+/* Responsive */
+@media (max-width:768px) {
+    .container { height: 650px; width: 100%; }
+    .form-flipper, .form-container { width:100%; height:50%; }
+    .overlay-container { display:none; }
+}

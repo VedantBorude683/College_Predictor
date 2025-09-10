@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header class="navbar">
         <div class="logo">EduPredict</div>
@@ -19,20 +21,21 @@
         </nav>
         <div class="nav-buttons">
             <button class="toggle-mode-btn" id="darkModeToggle">🌙</button>
-            <a href="#" class="login">Login/Sign Up</a>
+           <a href="login/login.html" class="login">Login/Sign Up</a>
+
         </div>
     </header>
 
     <section class="hero-section" id="hero">
         <video autoplay muted loop id="heroVideo">
-          <source src="videos/College_Predictor_Background_Video_Generation.mp4" type="video/mp4">
-          Your browser does not support HTML5 video.
+            <source src="videos/College_Predictor_Background_Video_Generation.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
         </video>
         <div class="hero-content">
             <h1>Find Your Perfect Engineering College with MHT-CET</h1>
             <p>Ready to find the best engineering colleges in Maharashtra? Click the button below to get started!</p>
             <div class="search-box">
-                <button class="predict-btn">Get Started</button>
+                <a href="http://localhost:3000/login/login.html" class="predict-btn" >Get Started</a>
             </div>
         </div>
     </section>
@@ -61,28 +64,28 @@
         <p>Click on a college card to learn more about it.</p>
         <div class="categories-grid">
             <div class="category-card" data-college="coep">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/COEP_Main_building.JPG" alt="COEP Pune">
+                <img src="images/coep.jpg" alt="COEP Pune">
                 <h3>COEP Pune</h3>
             </div>
             <div class="category-card" data-college="pict">
-                <img src="https://pict.edu/wp-content/uploads/2019/07/pict_campus_2.jpg" alt="PICT Pune">
+                <img src="images/pict2.jpg" alt="PICT Pune">
                 <h3>PICT Pune</h3>
             </div>
             <div class="category-card" data-college="vit">
-                <img src="https://vit.edu/wp-content/uploads/2021/04/campus_3.jpg" alt="VIT Pune">
+                <img src="images/vit.jpg" alt="VIT Pune">
                 <h3>VIT Pune</h3>
             </div>
             <div class="category-card" data-college="aissms">
-                <img src="https://www.aissmscoe.com/wp-content/uploads/2019/04/AISSMS-COE-1.jpg" alt="AISSMS Pune">
+                <img src="images/aissms.jpg" alt="AISSMS Pune">
                 <h3>AISSMS COE</h3>
             </div>
             <div class="category-card" data-college="dypatil">
-                <img src="https://dypatiluniversitypune.edu.in/wp-content/uploads/2022/10/campus-1.jpg" alt="DY Patil Pune">
+                <img src="images/dy patil.jpg" alt="DY Patil Pune">
                 <h3>DY Patil COE</h3>
             </div>
         </div>
     </section>
-    
+
     <footer id="contact-us">
         <div class="contact-container">
             <div class="contact-info">
@@ -114,11 +117,13 @@
                 <h3 id="modal-college-name"></h3>
                 <p id="modal-college-description"></p>
                 <ul class="info-details"></ul>
-                <a id="modal-college-link" href="#" target="_blank" class="modal-link">Visit Official Website</a>
+                <a id="modal-college-link" href="https://www.pict.edu/" target="_blank" class="modal-link">Visit
+                    Official Website</a>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
+
 </html>

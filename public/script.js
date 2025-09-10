@@ -1,21 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scroll to section on nav link click
+    // --- Smooth scroll to section on nav link click ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-
             const targetId = this.getAttribute('href');
-            document.querySelector(targetId).scrollIntoView({
-                behavior: 'smooth'
-            });
+            document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
         });
-    });
-
-    // Predict button functionality
-    const predictButton = document.querySelector('.predict-btn');
-    predictButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert('Welcome! Your college prediction journey is about to begin. Please contact us for more information.');
     });
 
     // --- College Modal Functionality ---
@@ -24,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'College of Engineering, Pune (COEP)',
             description: 'COEP is an autonomous engineering college affiliated with Savitribai Phule Pune University. It is one of the oldest engineering colleges in Asia, established in 1854. It is known for its excellent academics, strong alumni network, and vibrant campus life.',
             link: 'http://www.coep.org.in/',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/3/36/COEP_Main_building.JPG',
+            image: 'images/coep.JPG',
             details: [
                 '**Average Placement:** ₹10 LPA',
                 '**Popular Branches:** Computer Engineering, Mechanical Engineering, E&TC',
@@ -35,8 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Pune Institute of Computer Technology (PICT), Pune',
             description: 'PICT is a private engineering college located in Pune, a hub for IT companies. The college is known for its strong focus on Computer Science and IT and has a reputation for excellent placements.',
             link: 'https://www.pict.edu/',
-            image: 'https://pict.edu/wp-content/uploads/2019/07/pict_campus_2.jpg',
-            details: [
+            image: 'images/pict2.jpg',           
+             details: [
                 '**Average Placement:** ₹7-9 LPA',
                 '**Popular Branches:** Computer Engineering, Information Technology, E&TC',
                 '**MHT-CET Cutoff:** 99.3+ percentile'
@@ -46,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Vishwakarma Institute of Technology (VIT), Pune',
             description: 'VIT is an autonomous institute affiliated with Savitribai Phule Pune University. It is a highly-ranked private college known for its quality education, good infrastructure, and strong industry connections.',
             link: 'https://www.vit.edu/',
-            image: 'https://vit.edu/wp-content/uploads/2021/04/campus_3.jpg',
+            image: 'images/vit.jpg',
             details: [
                 '**Average Placement:** ₹6-8 LPA',
                 '**Popular Branches:** Computer Engineering, E&TC, AI & Data Science',
@@ -57,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'AISSMS College of Engineering (AISSMS COE)',
             description: 'AISSMS COE is a well-known private engineering college in Pune. It offers a vibrant campus life and a variety of engineering disciplines, with good placement records.',
             link: 'https://www.aissmscoe.com/',
-            image: 'https://www.aissmscoe.com/wp-content/uploads/2019/04/AISSMS-COE-1.jpg',
+            image: 'images/aissms.jpg',
             details: [
                 '**Average Placement:** ₹4-6 LPA',
                 '**Popular Branches:** Computer Engineering, Mechanical Engineering, Civil Engineering',
@@ -68,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Dr. D. Y. Patil Institute of Technology (DY Patil COE)',
             description: 'DY Patil COE is part of the well-established D. Y. Patil group. It is located in Pune and is known for its modern infrastructure, a wide range of courses, and a focus on both academics and extracurriculars.',
             link: 'https://dypit.ac.in/',
-            image: 'https://dypatiluniversitypune.edu.in/wp-content/uploads/2022/10/campus-1.jpg',
+            image: 'images/dy patil.jpg',
             details: [
                 '**Average Placement:** ₹4-5 LPA',
                 '**Popular Branches:** Computer Engineering, IT, Mechanical Engineering',
@@ -86,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeButton = document.querySelector('.close-button');
     const collegeCards = document.querySelectorAll('.category-card');
     const contactForm = document.getElementById('contactForm');
-
 
     const showModal = (collegeKey) => {
         const college = colleges[collegeKey];
@@ -122,9 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closeButton.addEventListener('click', hideModal);
     modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-            hideModal();
-        }
+        if (e.target === modalOverlay) hideModal();
     });
 
     contactForm.addEventListener('submit', (e) => {
@@ -135,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Counter Animation ---
     const counters = document.querySelectorAll('.stat-item .number');
-    const speed = 200; // The lower the number, the faster the counter
+    const speed = 200;
 
     const animateCounter = (counter) => {
         const target = +counter.getAttribute('data-target');
@@ -153,31 +140,31 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCount();
     };
 
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.5 // Trigger when 50% of the element is visible
-    };
-
+    const observerOptions = { root: null, rootMargin: '0px', threshold: 0.5 };
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const counter = entry.target.querySelector('.number');
                 animateCounter(counter);
-                observer.unobserve(entry.target); // Stop observing after animation
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
+    document.querySelectorAll('.stat-item').forEach(stat => observer.observe(stat));
 
-    document.querySelectorAll('.stat-item').forEach(stat => {
-        observer.observe(stat);
-    });
-
-    // --- Dark Mode Toggle ---
+    // --- Dark Mode Toggle with persistence ---
     const darkModeToggle = document.getElementById('darkModeToggle');
+
+    // Load dark mode state from localStorage
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+        darkModeToggle.textContent = '☀️';
+    }
+
     darkModeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         const isDarkMode = document.body.classList.contains('dark-mode');
         darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+        localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
     });
 });
