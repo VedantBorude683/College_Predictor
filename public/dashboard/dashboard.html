@@ -1,97 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduPredict Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>College Predictor — Dashboard</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
+  
   <link rel="stylesheet" href="dashboard.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <div class="dashboard">
-    <!-- Sidebar -->
+  <div class="app">
     <aside class="sidebar">
-      <h2 class="logo">EduPredict</h2>
-      <ul>
-        <li class="active">📊 Dashboard</li>
-        <li>🏫 Colleges</li>
-        <li>⚙️ Settings</li>
-        <li>🚪 Logout</li>
+      <div class="logo">Predictor</div>
+      <div class="profile">
+        <div class="avatar" id="avatarTxt">B</div>
+        <div class="user-info">
+          <h4 id="userName">bauna</h4>
+          <p class="small">Standard Plan</p>
+        </div>
+      </div>
+      <ul class="nav-list">
+        <div id="nav-active-pill"></div>
+        <li class="active" data-section="dashboard-section"><span class="material-icons">dashboard</span> Dashboard</li>
+        <li data-section="analytics-section"><span class="material-icons">bar_chart</span> Analytics</li>
+        <li data-section="saved-colleges-section"><span class="material-icons">star_border</span> Saved Colleges</li>
+        <li data-section="settings-section"><span class="material-icons">settings</span> Settings</li>
       </ul>
+      <div class="sidebar-footer">
+        <div id="logoutBtn" class="logout-button"><span class="material-icons">logout</span> Logout</div>
+        <div class="pro-card">
+          <span class="material-icons">workspace_premium</span>
+          <h4>Upgrade to Pro</h4>
+          <p>Unlock advanced analytics & unlimited predictions.</p>
+          <button class="btn pro-btn">Upgrade Now</button>
+        </div>
+      </div>
     </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-      <!-- Topbar -->
-      <header class="topbar">
-        <h1>Dashboard</h1>
-        <div class="topbar-right">
-          <button id="themeToggle">🌙</button>
-          <img src="https://via.placeholder.com/40" alt="User" class="profile">
+    
+    <main class="main">
+        <div id="dashboard-section" class="page-section is-visible">
+            <div class="card welcome-card" id="welcomeCard">
+                <div class="welcome-header">
+                    <div class="graphic-container"><span class="material-icons">school</span></div>
+                    <h2>Ready to Discover Your Future?</h2>
+                </div>
+                <p class="muted">Our powerful algorithm analyzes thousands of data points to predict your ideal college matches.</p>
+                <button id="startPrediction" class="predict-btn">Let's Get Started <span class="material-icons">arrow_forward</span></button>
+            </div>
         </div>
-      </header>
-
-      <!-- Stats Cards -->
-      <section class="cards">
-        <div class="card">
-          <h3>Total Predictions</h3>
-          <p>24</p>
+        <div id="form-section" class="page-section">
+            <div class="card form-card">
+                <h2>Enter Prediction Details</h2>
+                <p class="muted p-small" style="margin-top:-10px; margin-bottom: 20px;">Provide your details for an accurate prediction.</p>
+                <form id="userForm">
+                    <div class="form-grid">
+                        <div class="form-group span-two"><label>Your Marks (out of 200)</label><input type="number" id="marks" min="0" max="200" required></div>
+                        <div class="form-group span-two"><label>Category (आरक्षण श्रेणी)</label><select id="category" required><option value="">Select your category</option><option value="General">General</option><option value="OBC">OBC-NCL</option><option value="SC">SC</option><option value="ST">ST</option><option value="EWS">EWS</option></select></div>
+                        <div class="form-group span-two"><label>Preferred Branches (Select up to 3)</label><select id="branches" multiple required><option value="Computer Science">Computer Science & Engineering</option><option value="Electronics">Electronics & Communication</option><option value="Mechanical">Mechanical Engineering</option><option value="Civil">Civil Engineering</option><option value="Electrical">Electrical Engineering</option><option value="IT">Information Technology</option><option value="AI">Artificial Intelligence & Data Science</option></select></div>
+                    </div>
+                    <button type="submit" class="btn predict-btn" style="width:100%; margin-top:10px;">Predict My College</button>
+                </form>
+            </div>
         </div>
-        <div class="card">
-          <h3>Saved Colleges</h3>
-          <p>8</p>
-        </div>
-        <div class="card">
-          <h3>Recent Activity</h3>
-          <p>5</p>
-        </div>
-      </section>
-
-      <!-- Charts -->
-      <section class="charts">
-        <div class="chart-container">
-          <h3>Percentile Trend</h3>
-          <canvas id="lineChart"></canvas>
-        </div>
-        <div class="chart-container">
-          <h3>Prediction Categories</h3>
-          <canvas id="donutChart"></canvas>
-        </div>
-      </section>
-
-      <!-- Table -->
-      <section class="table-section">
-        <h3>Last Predictions</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>College</th>
-              <th>Percentile</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>XYZ College</td>
-              <td>92%</td>
-              <td>Safe</td>
-            </tr>
-            <tr>
-              <td>ABC University</td>
-              <td>85%</td>
-              <td>Target</td>
-            </tr>
-            <tr>
-              <td>PQR Institute</td>
-              <td>78%</td>
-              <td>Dream</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-    </main>
+        </main>
   </div>
-
+  
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+  
   <script src="dashboard.js"></script>
 </body>
 </html>

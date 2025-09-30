@@ -23,28 +23,57 @@ mongoose.connect("mongodb://localhost:27017/mhtcet_database")
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "home.html")));
 
 // Signup
+// Signup
 app.post("/api/signup", async (req, res) => {
     const { name, email, password } = req.body;
     try {
         const exists = await User.findOne({ email });
-        if (exists) return res.status(400).json({ error: "User already exists" });
+        if (exists) {
+            return res.status(400).json({ error: "User already exists" });
+        }
 
         const hash = await bcrypt.hash(password, 10);
         const user = new User({ name, email, password: hash });
         await user.save();
-        res.json({ message: "Sign-up successful" });
-    } catch (err) { res.status(500).json({ error: err.message }); }
+        
+        // --- FIX ---
+        // Send back the new user's data
+        res.status(201).json({ // 201 means 'Created'
+            message: "Sign-up successful",
+            user: {
+                name: user.name,
+                email: user.email
+            }
+        });
+
+    } catch (err) { 
+        res.status(500).json({ error: err.message }); 
+    }
 });
 
+// Login
 // Login
 app.post("/api/login", async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
-        if (!user || !(await bcrypt.compare(password, user.password)))
-            return res.status(400).json({ error: "Invalid credentials" });
-        res.json({ message: "Login successful" });
-    } catch (err) { res.status(500).json({ error: err.message }); }
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ error: "Invalid credentials" }); // 401 is better for auth errors
+        }
+        
+        // --- FIX ---
+        // Send back the user's data along with the success message
+        res.status(200).json({
+            message: "Login successful",
+            user: {
+                name: user.name,
+                email: user.email
+            }
+        });
+
+    } catch (err) { 
+        res.status(500).json({ error: err.message }); 
+    }
 });
 
 // OTP storage (in-memory for now)

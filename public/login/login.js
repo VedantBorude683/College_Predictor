@@ -14,7 +14,9 @@ const otpSection = document.getElementById('otpSection');
 const resetSection = document.getElementById('resetSection');
 const modalMessage = document.getElementById('modalMessage');
 
+// ==============================
 // Show temporary message
+// ==============================
 function showMessage(message) {
     messageBox.textContent = message;
     messageBox.style.display = 'block';
@@ -25,33 +27,43 @@ function showMessage(message) {
     }, 3000);
 }
 
+// ==============================
 // Panel flip
+// ==============================
 signUpButton.addEventListener('click', () => container.classList.add("right-panel-active"));
 signInButton.addEventListener('click', () => container.classList.remove("right-panel-active"));
 
+// ==============================
 // Dark mode check
+// ==============================
 document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('darkMode') === 'enabled') body.classList.add('dark-mode');
+    if (localStorage.getItem('darkMode') === 'enabled') body.classList.add('dark');
 });
 
+// ==============================
 // Signup/Login form handling
+// ==============================
 document.querySelectorAll('form').forEach(form => {
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
+
         const formType = form.querySelector('h1').textContent;
         const name = form.querySelector('input[type="text"]')?.value || "";
         const email = form.querySelector('input[type="email"]').value;
         const password = form.querySelector('input[type="password"]').value;
 
         try {
-            let response;
+            let response, data;
+
             if (formType === 'Sign In') {
+                // Login API
                 response = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
             } else if (formType === 'Create Account') {
+                // Signup API
                 response = await fetch('/api/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -59,12 +71,34 @@ document.querySelectorAll('form').forEach(form => {
                 });
             }
 
-            const data = await response.json();
+            data = await response.json();
 
             if (response.ok) {
+                // ==========================================================
+                // THE ONLY REQUIRED CHANGE IS IN THIS BLOCK
+                // ==========================================================
+                // This ensures the user's name is correctly captured from the
+                // server's response after both login and signup.
+                if (data.user && data.user.name) {
+                    const userData = {
+                        name: data.user.name,
+                        rank: data.user.rank || "",
+                        category: data.user.category || ""
+                    };
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                }
+                // ==========================================================
+                // END OF CHANGE
+                // ==========================================================
+
                 showMessage(data.message || 'Success!');
+
+                // Redirect to dashboard after 1 second
                 setTimeout(() => window.location.href = '../dashboard/dashboard.html', 1000);
-            } else showMessage(data.error || 'Invalid credentials!');
+
+            } else {
+                showMessage(data.error || 'Invalid credentials!');
+            }
 
         } catch (err) {
             console.error(err);
@@ -73,7 +107,9 @@ document.querySelectorAll('form').forEach(form => {
     });
 });
 
+// ==============================
 // Forgot Password Modal
+// ==============================
 forgotPasswordLink.addEventListener('click', () => {
     forgotPasswordModal.style.display = 'block';
     otpSection.style.display = 'block';
@@ -84,7 +120,9 @@ forgotPasswordLink.addEventListener('click', () => {
 closeModalBtn.addEventListener('click', () => forgotPasswordModal.style.display = 'none');
 window.addEventListener('click', e => { if (e.target === forgotPasswordModal) forgotPasswordModal.style.display = 'none'; });
 
+// ==============================
 // Send OTP
+// ==============================
 sendOtpBtn.addEventListener('click', async () => {
     const email = document.getElementById('forgotEmail').value;
     if (!email) return modalMessage.textContent = 'Please enter your email';
@@ -107,7 +145,9 @@ sendOtpBtn.addEventListener('click', async () => {
     }
 });
 
+// ==============================
 // Reset Password
+// ==============================
 resetPasswordBtn.addEventListener('click', async () => {
     const email = document.getElementById('forgotEmail').value;
     const otp = document.getElementById('enteredOtp').value;
