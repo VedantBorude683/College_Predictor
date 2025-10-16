@@ -7,15 +7,15 @@
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
-  
   <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+
   <div class="app">
     <aside class="sidebar">
-      <div class="logo">Predictor</div>
+      <div class="logo">SUCCESS</div>
+      
       <div class="profile">
         <div class="avatar" id="avatarTxt">B</div>
         <div class="user-info">
@@ -23,15 +23,20 @@
           <p class="small">Standard Plan</p>
         </div>
       </div>
+
       <ul class="nav-list">
-        <div id="nav-active-pill"></div>
         <li class="active" data-section="dashboard-section"><span class="material-icons">dashboard</span> Dashboard</li>
-        <li data-section="analytics-section"><span class="material-icons">bar_chart</span> Analytics</li>
+     
         <li data-section="saved-colleges-section"><span class="material-icons">star_border</span> Saved Colleges</li>
+        <li data-section="compare-section"><span class="material-icons">compare</span> Compare Colleges</li>
         <li data-section="settings-section"><span class="material-icons">settings</span> Settings</li>
       </ul>
+
       <div class="sidebar-footer">
-        <div id="logoutBtn" class="logout-button"><span class="material-icons">logout</span> Logout</div>
+        <div id="logoutBtn" class="logout-button">
+          <span class="material-icons">logout</span> Logout
+        </div>
+
         <div class="pro-card">
           <span class="material-icons">workspace_premium</span>
           <h4>Upgrade to Pro</h4>
@@ -40,37 +45,137 @@
         </div>
       </div>
     </aside>
-    
+
     <main class="main">
-        <div id="dashboard-section" class="page-section is-visible">
-            <div class="card welcome-card" id="welcomeCard">
-                <div class="welcome-header">
-                    <div class="graphic-container"><span class="material-icons">school</span></div>
-                    <h2>Ready to Discover Your Future?</h2>
-                </div>
-                <p class="muted">Our powerful algorithm analyzes thousands of data points to predict your ideal college matches.</p>
-                <button id="startPrediction" class="predict-btn">Let's Get Started <span class="material-icons">arrow_forward</span></button>
+      <div class="doodle-background">
+        <svg class="doodle doodle-gears" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 100,60 a 40,40 0 1,0 0,0.01 M 100,60 l 0,-20 M 128,48 l 20,-12 M 140,70 l 25,0 M 128,92 l 20,12 M 100,100 l 0,20 M 72,92 l -20,12 M 60,70 l -25,0 M 72,48 l -20,-12"/>
+          <path d="M 140,130 a 30,30 0 1,0 0,0.01 M 140,130 l 0,-15 M 161,121 l 15,-9 M 170,140 l 19,0 M 161,159 l 15,9 M 140,170 l 0,15 M 119,159 l -15,9 M 110,140 l -19,0 M 119,121 l -15,-9"/>
+        </svg>
+        <svg class="doodle doodle-chip" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="40" y="40" width="120" height="120" rx="10"/>
+            <rect x="60" y="60" width="80" height="80" rx="5"/>
+            <line x1="20" y1="60" x2="40" y2="60" /><line x1="20" y1="80" x2="40" y2="80" /><line x1="20" y1="100" x2="40" y2="100" />
+            <line x1="160" y1="120" x2="180" y2="120" /><line x1="160" y1="140" x2="180" y2="140" />
+            <line x1="80" y1="20" x2="80" y2="40" /><line x1="100" y1="20" x2="100" y2="40" />
+            <line x1="120" y1="160" x2="120" y2="180" />
+        </svg>
+        <svg class="doodle doodle-bridge" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 10,80 H 190" /><path d="M 10,80 A 90,60 0 0,1 190,80" />
+            <line x1="40" y1="80" x2="40" y2="64" /><line x1="70" y1="80" x2="70" y2="48" />
+            <line x1="100" y1="80" x2="100" y2="40" /><line x1="130" y1="80" x2="130" y2="48" />
+            <line x1="160" y1="80" x2="160" y2="64" />
+        </svg>
+        <svg class="doodle doodle-network" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="30" cy="50" r="10"/><circle cx="30" cy="100" r="10"/><circle cx="30" cy="150" r="10"/>
+            <circle cx="100" cy="75" r="10"/><circle cx="100" cy="125" r="10"/><circle cx="170" cy="100" r="10"/>
+            <line x1="30" y1="50" x2="100" y2="75" /><line x1="30" y1="50" x2="100" y2="125" />
+            <line x1="30" y1="100" x2="100" y2="75" /><line x1="30" y1="100" x2="100" y2="125" />
+            <line x1="30" y1="150" x2="100" y2="75" /><line x1="30" y1="150" x2="100" y2="125" />
+            <line x1="100" y1="75" x2="170" y2="100" /><line x1="100" y1="125" x2="170" y2="100" />
+        </svg>
+      </div>
+
+      <div id="dashboard-section" class="page-section is-visible">
+        <div class="card welcome-card" id="welcomeCard">
+          <div class="welcome-header"><div class="graphic-container"><span class="material-icons">school</span></div>
+            <h2>Ready to Discover Your Future?</h2>
+          </div>
+          <p class="muted">Our powerful algorithm analyzes thousands of data points to predict your ideal college matches.</p>
+          <button id="startPrediction" class="predict-btn">Let's Get Started <span class="material-icons">arrow_forward</span></button>
+        </div>
+        <div id="predictionResultsContainer" class="results-wrapper" style="display: none;"></div>
+      </div>
+
+      <div id="form-section" class="page-section">
+        <div class="card form-card">
+          <h2>Enter Prediction Details</h2>
+          <p class="muted p-small" style="margin-top:-10px; margin-bottom: 20px;">Provide your details for an accurate prediction.</p>
+          <form id="userForm">
+            <div class="form-grid">
+              <div class="form-group span-two"><label>Your Marks (out of 200)</label><input type="number" id="marks" min="0" max="200" required></div>
+              <div class="form-group span-two">
+                <label>Category (आरक्षण श्रेणी)</label>
+                <select id="category" required>
+                  <option value="">Select your category</option>
+                  <option value="General">General</option><option value="OBC">OBC-NCL</option><option value="SC">SC</option><option value="ST">ST</option><option value="EWS">EWS</option>
+                </select>
+              </div>
+              <div class="form-group span-two">
+                  <label>Preferred Branches (Select up to 3)</label>
+                  <select id="branches" multiple required>
+                    <option value="Computer Science">Computer Science & Engineering</option><option value="Electronics">Electronics & Communication</option>
+                    <option value="Mechanical">Mechanical Engineering</option><option value="Civil">Civil Engineering</option>
+                    <option value="Electrical">Electrical Engineering</option><option value="IT">Information Technology</option>
+                    <option value="AI">Artificial Intelligence & Data Science</option>
+                  </select>
+              </div>
+            </div>
+            <button type="submit" class="btn predict-btn" style="width:100%; margin-top:10px;">Predict My College</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="saved-colleges-section" class="page-section">
+        <div class="results-wrapper">
+          <h2>Your Saved Colleges</h2>
+          <div id="saved-colleges-list" class="results-container" style="margin-top: 20px;">
             </div>
         </div>
-        <div id="form-section" class="page-section">
-            <div class="card form-card">
-                <h2>Enter Prediction Details</h2>
-                <p class="muted p-small" style="margin-top:-10px; margin-bottom: 20px;">Provide your details for an accurate prediction.</p>
-                <form id="userForm">
-                    <div class="form-grid">
-                        <div class="form-group span-two"><label>Your Marks (out of 200)</label><input type="number" id="marks" min="0" max="200" required></div>
-                        <div class="form-group span-two"><label>Category (आरक्षण श्रेणी)</label><select id="category" required><option value="">Select your category</option><option value="General">General</option><option value="OBC">OBC-NCL</option><option value="SC">SC</option><option value="ST">ST</option><option value="EWS">EWS</option></select></div>
-                        <div class="form-group span-two"><label>Preferred Branches (Select up to 3)</label><select id="branches" multiple required><option value="Computer Science">Computer Science & Engineering</option><option value="Electronics">Electronics & Communication</option><option value="Mechanical">Mechanical Engineering</option><option value="Civil">Civil Engineering</option><option value="Electrical">Electrical Engineering</option><option value="IT">Information Technology</option><option value="AI">Artificial Intelligence & Data Science</option></select></div>
-                    </div>
-                    <button type="submit" class="btn predict-btn" style="width:100%; margin-top:10px;">Predict My College</button>
-                </form>
-            </div>
+        
+      </div>
+
+      
+      <div id="settings-section" class="page-section">
+        <div class="card settings-card">
+          <h2>User Settings</h2>
+          <form id="settingsForm">
+            <div class="form-group"><label>Full Name</label><input type="text" value="bauna"></div>
+            <div class="form-group"><label>Email Address</label><input type="email" value="bauna@example.com"></div>
+            <div class="form-group"><label>Change Password</label><input type="password" placeholder="Enter new password"></div>
+            <button type="submit" class="btn predict-btn" style="width:100%;">Save Changes</button>
+          </form>
         </div>
-        </main>
+      </div>
+
+      <div id="ai-chat-button" class="chat-button">
+        <svg class="robot-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="8" width="14" height="10" rx="2"></rect>
+            <path d="M9 18v-2h6v2"></path>
+            <path d="M12 8V4m-2 0h4"></path>
+            <circle cx="9" cy="12" r="1" fill="white"></circle>
+            <circle cx="15" cy="12" r="1" fill="white"></circle>
+        </svg>
+      </div>
+
+      <div id="ai-chat-window" class="chat-window">
+        <div class="chat-header">
+          <h3>AI College Counselor</h3>
+          <span id="close-chat-btn" class="material-icons">close</span>
+        </div>
+        <div id="chat-history" class="chat-history">
+          <div class="chat-message ai">
+            Hi! I'm your AI Assistant. Ask me anything about your results or compare colleges.
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <div id="ai-typing-indicator" class="typing-indicator" style="display: none;">
+            <span></span><span></span><span></span>
+          </div>
+          <form id="chat-form" class="chat-form">
+            <input type="text" id="chat-input" placeholder="Ask a question..." autocomplete="off" required>
+            <button type="submit" class="send-btn">
+              <span class="material-icons">send</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </main>
   </div>
   
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-  
   <script src="dashboard.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const cutoffSchema = new mongoose.Schema({
   COLLEGES: { type: String, required: true },
@@ -18,4 +18,4 @@ const cutoffSchema = new mongoose.Schema({
   Category: { type: String, required: true }
 }, { collection: "college_cutoffs" });
 
-module.exports = mongoose.model("Cutoff", cutoffSchema);
+export default mongoose.model("Cutoff", cutoffSchema);
