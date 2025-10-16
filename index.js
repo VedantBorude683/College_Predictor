@@ -147,6 +147,62 @@ app.post('/api/chat', async (req, res) => {
   
 });
 
+app.post('/api/compare', async (req, res) => {
+    const { colleges, parameters } = req.body;
+
+    if (!colleges || colleges.length < 2 || !parameters || parameters.length === 0) {
+        return res.status(400).json({ error: 'Please provide at least two colleges and one parameter.' });
+    }
+
+    const prompt = `
+        You are a helpful college information assistant for engineering colleges in Pune, India.
+        Compare the following colleges: ${colleges.join(', ')}.
+        Based on these specific parameters: ${parameters.join(', ')}.
+        Please provide the most recent and accurate data available.
+        IMPORTANT: Your entire response MUST be a single, valid JSON object.
+        Do not include any text, explanations, or markdown formatting like \`\`\`json before or after the JSON object.
+        The JSON object must have this exact structure:
+        1. A root key "colleges" which is an object.
+        2. Inside "colleges", each key should be the exact college name provided.
+        3. The value for each college should be another object containing the requested parameters as keys and their data as values.
+        4. A root key "parameters" which is an array of the exact parameter strings provided.
+        Example format:
+        {
+          "colleges": {
+            "PCCOE - IT": {"Overall Ranking": "~24 (NIRF)", "Average Package": "₹9.1 LPA"},
+            "JSPM - IT": {"Overall Ranking": "~48 (NIRF)", "Average Package": "₹14.4 LPA"}
+          },
+          "parameters": ["Overall Ranking", "Average Package"]
+        }
+    `;
+
+    try {
+        const response = await genAI.models.generateContent({
+            model: "gemini-2.5-flash", // Using a stronger model for reliable JSON output
+            contents: [{ parts: [{ text: prompt }] }],
+        });
+
+        const textResponse = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+        
+        if (!textResponse) {
+            return res.status(500).json({ error: 'AI response for comparison is empty.' });
+        }
+
+        // Clean the response to ensure it's valid JSON
+        const cleanedText = textResponse.replace(/```json/g, '').replace(/```/g, '').trim();
+
+        // Attempt to parse the cleaned text as JSON
+        const jsonData = JSON.parse(cleanedText);
+        
+        res.status(200).json(jsonData);
+
+    } catch (error) {
+        console.error('Error in /api/compare:', error);
+        res.status(500).json({ error: 'Failed to get AI comparison response. The model may have returned an invalid format.' });
+    }
+});
+
+
 // --- PAGE SERVING ROUTES ---
 app.get("/dashboard", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "dashboard", "dashboard.html"));

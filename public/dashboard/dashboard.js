@@ -14,6 +14,12 @@ const navItems = document.querySelectorAll(".nav-list li");
 const avatarTxt = document.getElementById('avatarTxt');
 const userName = document.getElementById('userName');
 
+// Elements for Compare feature
+const compareForm = document.getElementById('compareForm');
+const compareCollegesSelect = document.getElementById('compareCollegesSelect');
+const compareResultsContainer = document.getElementById('compareResultsContainer');
+let compareChoices = null; // To hold the Choices.js instance
+
 let predictionChart = null;
 
 // ==============================
@@ -154,6 +160,111 @@ function displayPredictions(predictions) {
 }
 
 // ==============================
+// COMPARE COLLEGES LOGIC
+// ==============================
+function renderComparePage() {
+  const savedColleges = getSavedColleges();
+  const options = savedColleges.map(college => ({
+    value: college.name,
+    label: college.name,
+    selected: false
+  }));
+
+  if (!compareChoices) {
+    compareChoices = new Choices(compareCollegesSelect, {
+      removeItemButton: true,
+      allowHTML: false,
+      placeholder: true,
+      placeholderValue: 'Select saved colleges or type to add new ones',
+      addItemText: (value) => {
+        return `Press Enter to add <b>"${value}"</b>`;
+      },
+    });
+  }
+
+  compareChoices.clearStore();
+  compareChoices.setChoices(options, 'value', 'label', true);
+  compareResultsContainer.innerHTML = `<div class="empty-saved-message" style="background: none; border: 2px dashed var(--card-border);">
+    <span class="material-icons">compare_arrows</span>
+    <h3>Ready to Compare</h3>
+    <p>Your comparison results will appear here.</p>
+  </div>`;
+}
+
+async function fetchComparisonData(colleges, parameters) {
+  // Show loader
+  compareResultsContainer.innerHTML = `
+    <div class="loader">
+      <div class="loader-spinner"></div>
+      <p>Contacting our AI Counselor to fetch live data...</p>
+    </div>
+  `;
+
+  try {
+    const response = await fetch('/api/compare', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ colleges, parameters }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'The server returned an error.');
+    }
+
+    const data = await response.json();
+    displayComparisonResults(data);
+
+  } catch (error) {
+    console.error("Comparison fetch error:", error);
+    compareResultsContainer.innerHTML = `<div class="empty-saved-message" style="color: #ef4444; border-color: #ef4444;">
+      <span class="material-icons">error_outline</span>
+      <h3>Oops! Something went wrong.</h3>
+      <p>${error.message}</p>
+    </div>`;
+  }
+}
+
+function displayComparisonResults(data) {
+  const { colleges, parameters } = data;
+  const collegeNames = Object.keys(colleges);
+
+  if (collegeNames.length === 0) {
+    compareResultsContainer.innerHTML = '<p>No data available for the selected colleges.</p>';
+    return;
+  }
+  
+  const tableHead = `
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        ${collegeNames.map(name => `<th>${name}</th>`).join('')}
+      </tr>
+    </thead>`;
+
+  const tableBodyRows = parameters.map(param => `
+    <tr>
+      <td>${param}</td>
+      ${collegeNames.map(name => `<td>${colleges[name][param] || 'N/A'}</td>`).join('')}
+    </tr>
+  `).join('');
+
+  const tableHTML = `
+    <table class="compare-results-table">
+      ${tableHead}
+      <tbody>
+        ${tableBodyRows}
+      </tbody>
+    </table>
+  `;
+
+  compareResultsContainer.innerHTML = tableHTML;
+}
+
+
+// ==============================
 // CORE LOGIC & HELPERS
 // ==============================
 function animateValue(element, start, end, duration) { let startTimestamp = null; const step = (timestamp) => { if (!startTimestamp) startTimestamp = timestamp; const progress = Math.min((timestamp - startTimestamp) / duration, 1); element.textContent = Math.floor(progress * (end - start) + start); if (progress < 1) { window.requestAnimationFrame(step); } }; window.requestAnimationFrame(step); }
@@ -199,10 +310,32 @@ navItems.forEach(item => {
     if (targetSectionId === 'saved-colleges-section') {
       renderSavedCollegesPage();
     }
+    if (targetSectionId === 'compare-section') {
+      renderComparePage();
+    }
     moveNavPill(item);
     showSection(targetSectionId);
   });
 });
+
+if (compareForm) {
+  compareForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const selectedColleges = compareChoices.getValue(true);
+    const selectedParams = [...document.querySelectorAll('input[name="compareParam"]:checked')].map(cb => cb.value);
+
+    if (selectedColleges.length < 2) {
+      alert('Please select at least two colleges to compare.');
+      return;
+    }
+    if (selectedParams.length === 0) {
+        alert('Please select at least one parameter to compare.');
+        return;
+    }
+    
+    fetchComparisonData(selectedColleges, selectedParams);
+  });
+}
 
 if (startPredictionBtn) { startPredictionBtn.addEventListener("click", () => { const dashboardNav = document.querySelector('[data-section="dashboard-section"]'); moveNavPill(dashboardNav); showSection("form-section"); }); }
 if (logoutBtn) { logoutBtn.addEventListener("click", () => { localStorage.clear(); window.location.href = '/home.html'; }); }

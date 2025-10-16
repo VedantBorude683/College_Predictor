@@ -125,6 +125,39 @@
         
       </div>
 
+      <div id="compare-section" class="page-section">
+        <div class="card" style="width: 100%; max-width: 900px;">
+          <h2>Compare Colleges</h2>
+          <p class="muted p-small" style="margin-top:-10px; margin-bottom: 20px;">Select at least two colleges and the parameters you want to compare.</p>
+          
+          <form id="compareForm">
+            <div class="form-group">
+              <label>Select or Add Colleges to Compare</label>
+              <select id="compareCollegesSelect" multiple></select>
+            </div>
+
+            <div class="form-group">
+              <label>Comparison Parameters</label>
+              <div class="parameter-selection-grid">
+                <label class="checkbox-label"><input type="checkbox" name="compareParam" value="Overall Ranking" checked> Overall Ranking</label>
+                <label class="checkbox-label"><input type="checkbox" name="compareParam" value="Average Package" checked> Average Package</label>
+                <label class="checkbox-label"><input type="checkbox" name="compareParam" value="Highest Package"> Highest Package</label>
+                <label class="checkbox-label"><input type="checkbox" name="compareParam" value="Tuition Fees"> Tuition Fees</label>
+                <label class="checkbox-label"><input type="checkbox" name="compareParam" value="Location"> Location</label>
+                <label class="checkbox-label"><input type="checkbox" name="compareParam" value="Student-Faculty Ratio"> Student-Faculty Ratio</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn predict-btn" style="width:100%; margin-top:10px;">
+              <span class="material-icons">compare_arrows</span> Compare Now
+            </button>
+          </form>
+
+          <div id="compareResultsContainer" style="margin-top: 30px;">
+            </div>
+        </div>
+      </div>
+
       
       <div id="settings-section" class="page-section">
         <div class="card settings-card">
